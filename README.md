@@ -1,1 +1,1 @@
-# generic-template
+# Data Dictionary Schema for OCC-EDC
