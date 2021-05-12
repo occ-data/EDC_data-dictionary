@@ -1,0 +1,48 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "volume_coverage_pattern"
+title: volume_coverage_pattern
+type: object
+namespace: http://gdc.nci.nih.gov
+category: radar
+program: '*'
+project: '*'
+description: >
+  The volume coverage pattern when data was collected by the radar system.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+links:
+  - name: radars
+    backref: volume_coverage_patterns
+    label: member_of
+    target_type: radar
+    multiplicity: many_to_one
+    required: true
+
+required:
+  - submitter_id
+  - type
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties"
+  name:
+    type: string
+  type:
+    enum: [ "volume_coverage_pattern" ]
+  vcp_number:
+    description: The volume coverage pattern when the radar collected this dataset.
+    type: number
+  radars:
+    $ref: "_definitions.yaml#/to_one"

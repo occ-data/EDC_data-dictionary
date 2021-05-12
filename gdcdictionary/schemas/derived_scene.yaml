@@ -1,0 +1,47 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "derived_scene"
+title: derived_scene
+type: object
+namespace: http://gdc.nci.nih.gov
+category: satellite
+program: '*'
+project: '*'
+description: >
+  Describes a scene derived from potentially multiple satellite instruments.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+links:
+  - name: passive_instruments
+    backref: derived_scenes
+    label: derived_from
+    target_type: passive_instrument
+    multiplicity: many_to_one
+    required: true
+
+required:
+  - submitter_id
+  - type
+
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties"
+  type:
+    enum: [ "derived_scene" ]
+  desciption:
+    description: A description of the derived scene.
+    type: string
+  passive_instruments:
+    $ref: "_definitions.yaml#/to_many"

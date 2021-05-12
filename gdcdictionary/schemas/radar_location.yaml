@@ -1,0 +1,62 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "radar_location"
+title: radar_location
+type: object
+program: '*'
+project: '*'
+category: radar
+description: >
+  A latitude, longitude, and elevation for where the radar was located when it was operating.
+additionalProperties: false
+submittable: true 
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+
+
+required:
+  - type
+  - radars
+  - submitter_id
+  - longitude
+  - latitude
+  - elevation
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+links:
+  - name: radars
+    backref: radar_locations
+    label: member_of
+    target_type: radar
+    multiplicity: many_to_one
+    required: true
+
+constraints: null
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties" 
+  type:
+    enum: ["radar_location"]
+  longitude:
+    type: number
+    description: "The longitude of the radar in decimal degrees."
+  latitude:
+    type: number
+    description: "The latitude of the radar in decimal degrees."
+  elevation:
+    type: number
+    description: "The elevation of the site of the radar in meters."
+  tower_height:
+    type: number
+    description: "The height of the radar above ground level in meters."
+  radars:
+    $ref: "_definitions.yaml#/to_one"

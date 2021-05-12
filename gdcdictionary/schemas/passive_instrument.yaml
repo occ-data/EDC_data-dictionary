@@ -1,0 +1,58 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "passive_instrument"
+title: passive_instrument
+type: object
+namespace: http://gdc.nci.nih.gov
+category: satellite
+program: '*'
+project: '*'
+description: >
+  A passive instrument aboad a satellite receiving at a specific wavelength.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+links:
+  - exclusive: true
+    required: true
+    subgroup:
+      - name: satellites
+        backref: passive_instruments
+        label: data_from
+        multiplicity: many_to_one
+        target_type: satellite
+        required: false
+
+required:
+  - type
+  - submitter_id
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties"
+  type:
+    enum: [ "passive_instrument" ]
+  instrument_name:
+    enum: [ "ABI", "MODIS", "VIIRS", "MSI" ] 
+    description: The name of the instrument on the satellite which is recording data.
+  central_wavelength:
+    description: The central wavelength the instrument receives data at in micrometers.
+    type: number
+  band_name:
+    type: string
+    description: The nickname used for the instrument band.
+  resolution:
+    type: number
+    description: The spatial resolution of the band in meters.
+  satellites:
+    $ref: "_definitions.yaml#/to_many"

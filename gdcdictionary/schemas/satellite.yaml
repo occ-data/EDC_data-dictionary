@@ -1,0 +1,52 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "satellite"
+title: satellite
+type: object
+program: '*'
+project: '*'
+category: satellite
+description: >
+  Describes a satellite which contains scientific instruments.
+additionalProperties: false
+submittable: true 
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+
+
+required:
+  - type
+  - projects
+  - submitter_id
+  - name
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+links:
+  - name: projects
+    backref: satellites
+    label: member_of
+    target_type: project
+    multiplicity: many_to_one
+    required: true
+
+constraints: null
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties"
+  type:
+    enum: ['satellite']
+  name:
+    type: string
+  description:
+    type: string
+  projects:
+    $ref: "_definitions.yaml#/to_one_project"

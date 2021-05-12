@@ -1,0 +1,53 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "geo_orbit"
+title: geo_orbit
+type: object
+program: '*'
+project: '*'
+category: satellite
+description: >
+  A geosynchronous satellite orbit. 
+additionalProperties: false
+submittable: true 
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - state
+  - created_datetime
+  - updated_datetime
+
+
+required:
+  - type
+  - satellites
+  - submitter_id
+  - longitude
+  - altitude
+
+uniqueKeys:
+  - [ id ]
+  - [ project_id, submitter_id ]
+
+links:
+  - name: satellites
+    backref: geo_orbits
+    label: member_of
+    target_type: satellite
+    multiplicity: many_to_one
+    required: true
+
+constraints: null
+
+properties:
+  $ref: "_definitions.yaml#/ubiquitous_properties" 
+  type:
+    enum: ["geo_orbit"]
+  longitude:
+    type: number
+  altitude:
+    type: number
+  satellites:
+    $ref: "_definitions.yaml#/to_one"
